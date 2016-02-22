@@ -1,3 +1,5 @@
+package ru.stqa.tmp.sandbox;
+
 public class MyFirstProgram{
 
  public static void main(String[] args) {
