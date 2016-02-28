@@ -18,7 +18,7 @@ public class MyFirstProgram {
 
         //System.out.println("Расстояние = " + distance(p1,p2));
 
-       Point p=new Point (1,1,4,4);
+       Point p=new Point (0,1.5,4,4);
       System.out.println("Расстояние = " +p.distance());
 
     }
