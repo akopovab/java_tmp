@@ -1,4 +1,4 @@
-package ru.stqa.pft.addressbook;
+package ru.stqa.pft.addressbook.model;
 
 public class ContactData {
     private final String firstName;
@@ -16,6 +16,7 @@ public class ContactData {
         this.phoneNumber = phoneNumber;
         this.email = email;
     }
+
 
     public String getFirstName() {
         return firstName;
