@@ -1,16 +1,15 @@
 package ru.stqa.pft.addressbook.appmanager;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.Select;
+import org.testng.Assert;
 import ru.stqa.pft.addressbook.model.ContactData;
 
-/**
- * Created by 3 on 01.03.2016.
- */
+
 public class ContactHelper extends HelperBase {
 
-  public ContactHelper(FirefoxDriver wd) {
+  public ContactHelper(WebDriver wd) {
     super(wd);
   }
 
@@ -19,12 +18,16 @@ public class ContactHelper extends HelperBase {
     click(By.xpath("//div[@id='content']/form/input[21]"));
   }
 
-  public void fillContactForm(ContactData contactData) {
+  public void fillContactForm(ContactData contactData, boolean creation) {
     type(By.name("firstname"), contactData.getFirstName());
     type(By.name("lastname"), contactData.getLastName());
     type(By.name("address"), contactData.getAddress());
     type(By.name("home"), contactData.getPhoneNumber());
     type(By.name("email"), contactData.getEmail());
+    if (creation)
+      new Select(wd.findElement(By.name("new_group"))).selectByVisibleText
+              (contactData.getGroup());
+    else Assert.assertFalse(isElementPresent(By.name("new_group")));
 
   }
 
@@ -56,10 +59,6 @@ public class ContactHelper extends HelperBase {
     click(By.xpath("//div[@id='content']/form[1]/input[22]"));
   }
 
-    public String getUnchangedContact(String locator){
 
-      return (wd.findElement(By.name(locator))).getText();
-
-    }
 
 }
