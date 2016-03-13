@@ -5,6 +5,9 @@ import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import ru.stqa.pft.addressbook.model.GroupData;
+
+import java.util.List;
 
 
 public class HelperBase {
@@ -46,4 +49,6 @@ public class HelperBase {
       return false;
     }
   }
+
+
 }
