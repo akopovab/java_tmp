@@ -23,7 +23,7 @@ public class ContactModificationTest extends TestBase {
        // System.out.println( "before 1111" +before);
 
         app.getContactHelper().initContactModification(before.size() - 1);
-        ContactData contact = new ContactData(before.get(before.size() - 1).getId(), "Korona", "Manja", "Moscow, " +
+        ContactData contact = new ContactData(before.get(before.size() - 1).getId(), "Ola", "Konina", "Moscow, " +
                 "Russia", "Manja@mail.ru", "123456", null);
         app.getContactHelper().fillContactForm(contact, false);
         app.getContactHelper().updateContact();
@@ -33,13 +33,13 @@ public class ContactModificationTest extends TestBase {
 
         before.remove(before.size()-1);
         before.add(contact);
-        /*Comparator<? super ContactData> byId=(g1, g2)->Integer.compare(g1.getId(),g2.getId());
+        Comparator<? super ContactData> byId=(g1, g2)->Integer.compare(g1.getId(),g2.getId());
         before.sort(byId);
-        after.sort(byId);*/
-         Assert.assertEquals(new HashSet<Object>(before), new HashSet<Object> (after));
+        after.sort(byId);
+       //  Assert.assertEquals(new HashSet<Object>(before), new HashSet<Object> (after));
         Assert.assertEquals(before,after);
-       // System.out.println( "before" +before);
-        //System.out.println("after"+after);
+       /* System.out.println( "before" +before);
+        System.out.println("after"+after); */
 
 
     }

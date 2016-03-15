@@ -10,9 +10,10 @@ public class ContactData {
     private String group;
 
 
-    public ContactData( int id, String firstName, String lastName, String address, String phoneNumber,
 
-                        String email, String group) {
+    public ContactData(int id, String firstName, String lastName, String address, String phoneNumber,
+
+                       String email, String group) {
         this.id=id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -24,9 +25,8 @@ public class ContactData {
 
 
     public ContactData( String firstName, String lastName, String address, String phoneNumber,
-
                         String email, String group) {
-        this.id=Integer.MAX_VALUE;
+        this.id=Integer.MAX_VALUE; // this.id=0; может быть любое значение
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
@@ -80,27 +80,23 @@ public class ContactData {
         return result;
     }
 
-    @Override
-    public String toString() {
-        return "ContactData{" +
-                "firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", address='" + address + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", email='" + email + '\'' +
-                ", group='" + group + '\'' +
-                ", id=" + id +
-                '}';
-    }
-
     public int    getId() {
         return id;
     }
 
+    public void setId(int id) {
+          this.id = id;
+    }
 
 
-    /*public String getId() {
-        return id;
-    } */
+    @Override
+    public String toString() {
+        return "ContactData{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                '}';
+    }
+
 
 }

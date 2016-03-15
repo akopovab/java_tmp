@@ -80,7 +80,8 @@ public class ContactHelper extends HelperBase {
   }
 
   public void updateContact() {
-    click(By.xpath("//div[@id='content']/form[1]/input[22]"));
+    click(By.name("update"));
+    //click(By.xpath("//div[@id='content']/form[1]/input[22]"));
   }
 
 
@@ -88,8 +89,8 @@ public class ContactHelper extends HelperBase {
     List<ContactData> contacts = new ArrayList<ContactData>();
     List<WebElement> elements = wd.findElements(By.name("entry"));
     for (WebElement element : elements) {
-      String firstname = element.findElements(By.tagName("td")).get(1).getText();
-      String lastname = element.findElements(By.tagName("td")).get(2).getText();
+      String firstname = element.findElements(By.tagName("td")).get(2).getText();
+      String lastname = element.findElements(By.tagName("td")).get(1).getText();
       int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("id"));
       ContactData contact = new ContactData(id, firstname, lastname, null,null,null,null);
       contacts.add(contact);
