@@ -20,8 +20,6 @@ public class ContactModificationTest extends TestBase {
         }
         List<ContactData> before = app.getContactHelper().getContactList();
 
-       // System.out.println( "before 1111" +before);
-
         app.getContactHelper().initContactModification(before.size() - 1);
         ContactData contact = new ContactData(before.get(before.size() - 1).getId(), "Ola", "Konina", "Moscow, " +
                 "Russia", "Manja@mail.ru", "123456", null);
