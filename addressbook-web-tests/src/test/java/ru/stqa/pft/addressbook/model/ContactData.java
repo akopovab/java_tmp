@@ -2,14 +2,52 @@ package ru.stqa.pft.addressbook.model;
 
 public class ContactData {
     private int id;
-    private final String firstName;
-    private final String lastName;
-    private final String address;
-    private final String phoneNumber;
-    private final String email;
+    private  String firstName;
+    private  String lastName;
+    private  String address;
+    private  String homePhone;
+    private  String mobilePhone;
+    private  String workPhone;
+    private  String phoneNumber;
+    private  String email;
     private String group;
 
 
+
+    public ContactData withId(int id) {
+        this.id=id;
+        return this;
+    }
+
+    public String getHomePhone() {
+        return homePhone;
+    }
+
+    public ContactData withHomePhone(String homePhone){
+
+        this.homePhone=homePhone;
+        return this;
+    }
+    public String getMobilePhone() {
+        return mobilePhone;
+    }
+
+    public ContactData withMobilePhone(String mobilePhone){
+
+        this.mobilePhone=mobilePhone;
+        return this;
+    }
+
+
+    public String getWorkPhone() {
+        return workPhone;
+    }
+
+    public ContactData withWorkPhone(String workPhone){
+
+        this.workPhone=workPhone;
+        return this;
+    }
 
     public ContactData(int id, String firstName, String lastName, String address, String phoneNumber,
 

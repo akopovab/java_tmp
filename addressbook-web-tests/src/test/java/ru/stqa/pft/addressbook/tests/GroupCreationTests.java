@@ -22,7 +22,7 @@ public class GroupCreationTests extends TestBase {
     // int after =app.getGroupHelper().count();
     //Set<GroupData> after = app.group().all();
 
-    assertThat(app.group().count(), equalToObject(before.size() + 1));
+    assertThat(app.group().count(), equalTo(before.size() + 1));
     Groups after = app.group().all();
     /*    int max=0;
         for (GroupData g:after){
@@ -57,7 +57,7 @@ public class GroupCreationTests extends TestBase {
     app.goTo().groupPage();
     Groups before = app.group().all();
     GroupData group = new GroupData().withName("aaa2'");
-    assertThat(app.group().count(), equalToObject(before.size()));
+    assertThat(app.group().count(), equalTo(before.size()));
     Groups after = app.group().all();
     assertThat(after, equalTo(before));
   }
