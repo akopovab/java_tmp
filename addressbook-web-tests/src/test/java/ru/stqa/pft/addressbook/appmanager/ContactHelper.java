@@ -98,7 +98,7 @@ public class ContactHelper extends HelperBase {
       String firstname = element.findElements(By.tagName("td")).get(2).getText();
       String lastname = element.findElements(By.tagName("td")).get(1).getText();
       int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("id"));
-      ContactData contact = new ContactData(id, firstname, lastname, null,null,null,null);
+      ContactData contact = new ContactData().withId(id).withFirstname(firstname).withLastname(lastname); //null,null,null,null);
       contacts.add(contact);
 
     }
@@ -111,13 +111,18 @@ public class ContactHelper extends HelperBase {
   public  Contacts all() {   //Set<GroupData> all() {
     if (contactCache !=null) return new Contacts(contactCache);
     contactCache=new Contacts();
-    //Groups groups = new Groups();
     List<WebElement> elements = wd.findElements(By.name("entry"));
     for (WebElement element : elements) {
       String firstname = element.findElements(By.tagName("td")).get(2).getText();
       String lastname = element.findElements(By.tagName("td")).get(1).getText();
+      String allPhones= element.findElements(By.tagName("td")).get(5).getText();
+
+      String[] phones = allPhones.split("\n");
       int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("id"));
-      ContactData contact = new ContactData(id, firstname, lastname, null,null,null,null);
+    /*  ContactData contact = new ContactData().withId(id).withFirstname(firstname).withLastname(lastname).
+      withHomePhone(phones[0]).withMobilePhone(phones[1]).withWorkPhone(phones[2]);   // firstname, lastname, null,null,null,null); */
+      ContactData contact = new ContactData().withId(id).withFirstname(firstname).withLastname(lastname).
+              withAllPhones(allPhones);
       contactCache.add(contact);
 
     }
@@ -131,7 +136,7 @@ public class ContactHelper extends HelperBase {
       String home=wd.findElement(By.name("home")).getAttribute("value");
       String mobile = wd.findElement(By.name("mobile")).getAttribute("value");
       String work = wd.findElement(By.name("work")).getAttribute("value");
-       return new ContactData().withId(contact.getId()).withFirstame(firstname).withLastname(lastname).
+       return new ContactData().withId(contact.getId()).withFirstname(firstname).withLastname(lastname).
                withHomePhone(home).withMobilePhone(mobile).withWorkPhone(work);
   }
 

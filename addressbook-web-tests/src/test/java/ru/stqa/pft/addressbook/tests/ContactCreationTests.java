@@ -14,7 +14,7 @@ public class ContactCreationTests extends TestBase {
   @Test(enabled = false)
   public void testContactCreation() {
 
-    app.getContactHelper().returnContactPage();
+ /*  app.getContactHelper().returnContactPage();
     List<ContactData> before = app.getContactHelper().getContactList();
     ContactData contact = new ContactData("Olga", "Petrova",
             "45 Green Street", "2156106755", null, null);
@@ -22,14 +22,14 @@ public class ContactCreationTests extends TestBase {
     List<ContactData> after = app.getContactHelper().getContactList();
     Assert.assertEquals(after.size(), before.size() + 1);
 
-    contact.setId(after.stream().max((o1, o2) -> Integer.compare(o1.getId(),o2.getId())).get().getId());
+   // contact.setId(after.stream().max((o1, o2) -> Integer.compare(o1.getId(),o2.getId())).get().getId());
 
       before.add(contact);
    /* Comparator<? super ContactData> byId = (g1, g2) -> Integer.compare(g1.getId(), g2.getId()); - сортировка по id
      before.sort(byId);
      after.sort(byId); */
 
-    Comparator<? super ContactData> byLastName = (g1, g2) -> String.CASE_INSENSITIVE_ORDER.compare(g1.getLastName(), g2.getLastName()); //- сортировка по LastName
+   /* Comparator<? super ContactData> byLastName = (g1, g2) -> String.CASE_INSENSITIVE_ORDER.compare(g1.getLastName(), g2.getLastName()); //- сортировка по LastName
     before.sort(byLastName);
     after.sort(byLastName);
 
@@ -37,7 +37,8 @@ public class ContactCreationTests extends TestBase {
     // Assert.assertEquals(new HashSet<Object>(before), new HashSet<Object> (after)); сравнение множеств, без сортировки
 
     // app.getContactHelper().submitContactCreation();
-    //app.getNavigationHelper().gotoHomePage();
+    //app.getNavigationHelper().gotoHomePage();      */
+
 
   }
 
