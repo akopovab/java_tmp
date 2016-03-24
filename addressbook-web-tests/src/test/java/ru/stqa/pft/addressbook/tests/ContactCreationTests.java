@@ -4,15 +4,29 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import ru.stqa.pft.addressbook.model.ContactData;
+import ru.stqa.pft.addressbook.model.Contacts;
 
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
+
 public class ContactCreationTests extends TestBase {
 
-  @Test(enabled = false)
+  @Test
   public void testContactCreation() {
+
+    app.goTo().gotoHomePage();
+    Contacts before=app.contact().all();
+    ContactData contact=new ContactData().withFirstname("Ira").withLastname("Goup");
+    app.contact().createContact(contact);
+    assertThat(app.contact().count(), equalTo(before.size() + 1));
+    Contacts after = app.contact().all();
+    assertThat(after, equalTo(
+            before.withAdded(contact.withId(after.stream().
+                    mapToInt((g) -> g.getId()).max().getAsInt()))));
 
  /*  app.getContactHelper().returnContactPage();
     List<ContactData> before = app.getContactHelper().getContactList();

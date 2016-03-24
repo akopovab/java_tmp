@@ -47,15 +47,22 @@ public class ContactHelper extends HelperBase {
     click(By.xpath("//div[@id='content']/form[2]/div[2]/input"));
     if (isAlertPresent())
       wd.switchTo().alert().accept();
-    contactCache=null;
+
 
   }
+
 
   public void choiceContact(int index) {
 
     wd.findElements(By.name("selected[]")).get(index).click();
     //click(By.name("selected[]"));
 
+
+  }
+
+  public void selectContactById(int id){
+
+    wd.findElement(By.cssSelector(String.format("input[id='%s']",id))).click();
 
   }
   public boolean isThereAContact()
@@ -71,6 +78,25 @@ public class ContactHelper extends HelperBase {
     contactCache=null;
     returnContactPage();
   }
+
+  public void modify(ContactData contact) {
+    initContactModificationById(contact.getId());
+    fillContactForm(contact,false);
+    updateContact();
+    contactCache=null;
+    returnContactPage();
+  }
+
+  public void delete(ContactData contact) {
+    selectContactById(contact.getId());
+    deleteContact();
+    contactCache=null;
+    returnContactPage();
+  }
+
+
+
+
 
   public void returnContactPage() {
 
@@ -138,6 +164,7 @@ public class ContactHelper extends HelperBase {
       initContactModificationById(contact.getId());
       String firstname= wd.findElement(By.name("firstname")).getAttribute("value");
       String lastname= wd.findElement(By.name("lastname")).getAttribute("value");
+      String middlename= wd.findElement(By.name("middlename")).getAttribute("value");
       String home=wd.findElement(By.name("home")).getAttribute("value");
       String mobile = wd.findElement(By.name("mobile")).getAttribute("value");
       String work = wd.findElement(By.name("work")).getAttribute("value");
@@ -145,7 +172,7 @@ public class ContactHelper extends HelperBase {
       String email2=wd.findElement(By.name("email2")).getAttribute("value");
       String email3=wd.findElement(By.name("email3")).getAttribute("value");
       String address=wd.findElement(By.name("address")).getText();
-       return new ContactData().withId(contact.getId()).withFirstname(firstname).withLastname(lastname).
+       return new ContactData().withId(contact.getId()).withFirstname(firstname).withLastname(lastname).withMiddlename(middlename).
                withHomePhone(home).withMobilePhone(mobile).withWorkPhone(work).
                withAddress(address).withEmail1(email1).withEmail2(email2).withEmail3(email3);
   }
@@ -173,4 +200,12 @@ public class ContactHelper extends HelperBase {
     wd.findElement(By.cssSelector(String.format("a[href='view.php?id=%s']",id))).click();
 
   }
+
+
+  public int count() {
+    return wd.findElements(By.name("selected[]")).size();
+  }
+
+
+
 }

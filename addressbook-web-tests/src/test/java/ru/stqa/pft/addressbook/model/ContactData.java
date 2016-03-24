@@ -1,9 +1,14 @@
 package ru.stqa.pft.addressbook.model;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
 public class ContactData {
     private int id;
     private  String firstName;
     private  String lastName;
+    private  String middleName;
     private  String address;
     private  String homePhone;
     private  String mobilePhone;
@@ -80,6 +85,13 @@ public class ContactData {
         return this;
     }
 
+    public ContactData withMiddlename(String middleName){
+
+        this.middleName=middleName;
+        return this;
+    }
+
+
     public ContactData withLastname(String lastName){
 
         this.lastName=lastName;
@@ -111,6 +123,12 @@ public class ContactData {
     }
     public String getEmail3() {
         return email3;
+    }
+
+    public String getFio() {
+
+       return Arrays.asList(getFirstName(),getMiddleName(),getLastName()).stream().filter((s) ->! s.equals("")).collect(Collectors.joining(" "));
+
     }
 
     public ContactData withWorkPhone(String workPhone){
@@ -155,6 +173,9 @@ public class ContactData {
         return lastName;
     }
 
+    public String getMiddleName() {
+        return middleName;
+    }
     public String getAddress() {
         return address;
     }
