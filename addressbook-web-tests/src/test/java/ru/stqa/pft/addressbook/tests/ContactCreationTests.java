@@ -6,6 +6,7 @@ import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.Contacts;
 
+import java.io.File;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
@@ -20,7 +21,9 @@ public class ContactCreationTests extends TestBase {
 
     app.goTo().gotoHomePage();
     Contacts before=app.contact().all();
-    ContactData contact=new ContactData().withFirstname("Ira").withLastname("Goup");
+    File photo=new File("src/main/resources/Tulips.jpg");
+    ContactData contact=new ContactData().withFirstname("Ira").withLastname("Goup").
+           withPhoto(photo);
     app.contact().createContact(contact);
     assertThat(app.contact().count(), equalTo(before.size() + 1));
     Contacts after = app.contact().all();
@@ -54,6 +57,16 @@ public class ContactCreationTests extends TestBase {
     //app.getNavigationHelper().gotoHomePage();      */
 
 
+
   }
 
+  @Test(enabled = false)
+  public void currentDir(){
+
+    File currentDir=new File(".");
+    System.out.println(currentDir.getAbsolutePath());
+    File photo=new File("src/main/resources/Tulips.jpg");
+       System.out.println(photo.getAbsolutePath());
+    System.out.println(photo.exists());
+  }
 }

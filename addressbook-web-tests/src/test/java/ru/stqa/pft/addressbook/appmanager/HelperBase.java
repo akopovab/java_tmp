@@ -7,6 +7,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import ru.stqa.pft.addressbook.model.GroupData;
 
+import java.io.File;
 import java.util.List;
 
 
@@ -30,7 +31,19 @@ public class HelperBase {
         wd.findElement(locator).sendKeys(text);
       }
     }
+
+
   }
+  protected void attach(By locator, File file)        {
+
+    if (file!=null) {
+       wd.findElement(locator).sendKeys(file.getAbsolutePath());
+      }
+    }
+
+
+
+
 
   public  boolean isAlertPresent() {
     try {
