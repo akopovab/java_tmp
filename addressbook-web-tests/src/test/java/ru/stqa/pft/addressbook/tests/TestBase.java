@@ -12,8 +12,9 @@ import ru.stqa.pft.addressbook.appmanager.ApplicationManager;
  * Created by eee on 28.02.2016.
  */
 public class TestBase  {
-  protected final ApplicationManager app = new ApplicationManager(BrowserType.FIREFOX);
-
+ // protected final ApplicationManager app = new ApplicationManager(BrowserType.FIREFOX);
+  protected final static ApplicationManager app = new ApplicationManager
+         (System.getProperty("browser",BrowserType.CHROME));
 
   @BeforeSuite
   public void setUp() throws Exception {
