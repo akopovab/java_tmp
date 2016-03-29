@@ -24,14 +24,31 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class GroupCreationTests extends TestBase {
 
-  Logger logger= LoggerFactory.getLogger(GroupCreationTests.class);
+ // Logger logger= LoggerFactory.getLogger(GroupCreationTests.class); перенесли в TestBase
 
-  @DataProvider
-  public Iterator<Object[]> validGroupsFromXml() throws IOException {
-   // List<Object[]> list = new ArrayList<Object[]>();
+/*  @DataProvider
+  public Iterator<Object[]> validGroupsFromCsv() throws IOException {
+     List<Object[]> list = new ArrayList<Object[]>(); // все закомментированное  для csv формата урок 6, видео 6
+     перенесено в TestBase
     // list.add(new Object[] {new GroupData().withName("test1").withHeader("header1").withFooter("footer1")} );
     // list.add(new Object[] {new GroupData().withName("test2").withHeader("header2").withFooter("footer2")} );
     //list.add(new Object[] {new GroupData().withName("test3").withHeader("header3").withFooter("footer3")} );
+     BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/groups.csv")));
+      String line = reader.readLine();
+      while (line != null) {
+        String[] split = line.split(";");
+        list.add(new Object[]{new GroupData().withName(split[0]).withHeader(split[1]).withFooter(split[2])});
+        line = reader.readLine();
+      }
+      return list.iterator();
+
+
+    }
+
+
+
+    @DataProvider
+  public Iterator<Object[]> validGroupsFromXml() throws IOException {
    try( BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/groups.xml")))){
      String xml="";
      String line = reader.readLine();
@@ -43,36 +60,26 @@ public class GroupCreationTests extends TestBase {
      xstream.processAnnotations(GroupData.class);
      List<GroupData> groups=(List<GroupData>)xstream.fromXML(xml);
      return groups.stream().map((q)-> new Object[]{q}).collect(Collectors.toList()).iterator();
-
-         // String[] split = line.split(";");
-     // list.add(new Object[]{new GroupData().withName(split[0]).withHeader(split[1]).withFooter(split[2])});
       }
 
-     //return list.iterator();
-  }
+     }
 
   @DataProvider
   public Iterator<Object[]> validGroupsFromJson() throws IOException {
-    // List<Object[]> list = new ArrayList<Object[]>();
-    // list.add(new Object[] {new GroupData().withName("test1").withHeader("header1").withFooter("footer1")} );
-    // list.add(new Object[] {new GroupData().withName("test2").withHeader("header2").withFooter("footer2")} );
-    //list.add(new Object[] {new GroupData().withName("test3").withHeader("header3").withFooter("footer3")} );
     BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/groups.json")));
     String json="";
     String line = reader.readLine();
     while (line != null) {
      json+=line;
-      // String[] split = line.split(";");
-      // list.add(new Object[]{new GroupData().withName(split[0]).withHeader(split[1]).withFooter(split[2])});
-      line = reader.readLine();
+     line = reader.readLine();
     }
  Gson gson= new Gson();
     List<GroupData> groups= gson.fromJson(json, new TypeToken<List<GroupData>>()
     {}.getType());//List<GroupData>.classj
      return groups.stream().map((q)-> new Object[]{q}).collect(Collectors.toList()).iterator();
-    //return list.iterator();
-  }
 
+  }
+  */
 
   @Test(dataProvider = "validGroupsFromJson")
   public void testGroupCreation(GroupData group) {

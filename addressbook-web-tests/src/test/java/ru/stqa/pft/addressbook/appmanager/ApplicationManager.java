@@ -38,10 +38,13 @@ public class ApplicationManager {
      properties.load(new FileReader( new File
             (String.format("src/test/resources/%s.properties",target))));
 
+   // if (properties.getProperty("browser").equals("firefox"))
+   // wd = new FirefoxDriver();   вариант с конфигурационным файлом -брать броузер из конфига
+
     if(browser.equals(BrowserType.FIREFOX)) {
       wd = new FirefoxDriver();
     }
-     else if(browser.equals(BrowserType.CHROME)){
+      else if(browser.equals(BrowserType.CHROME)){
       wd = new ChromeDriver();
     }
      else if(browser.equals(BrowserType.IE)) {

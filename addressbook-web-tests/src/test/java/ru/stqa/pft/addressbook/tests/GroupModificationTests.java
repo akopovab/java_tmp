@@ -28,17 +28,20 @@ public class GroupModificationTests extends TestBase {
   }
 
 
-  @Test
-  public void groupTestModification() {
+  @Test(dataProvider = "validGroupsFromJson")
+  public void groupTestModification(GroupData group) {
 
     //Set<GroupData> before = app.group().all();
     Groups before = app.group().all();
     GroupData modifiedGroup = before.iterator().next();
     //int index=before.size() - 1;
-    GroupData group = new GroupData().withId(modifiedGroup.getId()).
-            withName("aaa").withHeader("123").withFooter("test12");
-    app.group().modify(group);
+
+    GroupData groupWithId=group.withId(modifiedGroup.getId());
+   // GroupData group = new GroupData().withId(modifiedGroup.getId()).
+   //         withName("aaa").withHeader("123").withFooter("test12");
+   // app.group().modify(group);
     //Set<GroupData> after = app.group().all();
+    app.group().modify(groupWithId);
     assertEquals(app.group().count(), before.size());
     Groups after = app.group().all();
 
