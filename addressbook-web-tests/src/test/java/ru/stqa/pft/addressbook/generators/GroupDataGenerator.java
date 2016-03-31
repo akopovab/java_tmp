@@ -80,6 +80,10 @@ public class GroupDataGenerator {
 
 
   private void saveCsv(List<GroupData> groups, File file) throws IOException {
+    if (file.exists()){
+      System.out.println(" The file already exists");
+      return;
+    }
     try (Writer writer = new FileWriter(file)) {
       for (GroupData group : groups) {
         writer.write(String.format("%s;%s;%s\n", group.getName(), group.getHeader(), group.getFooter()));

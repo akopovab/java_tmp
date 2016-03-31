@@ -1,38 +1,86 @@
 package ru.stqa.pft.addressbook.model;
 
+import org.hibernate.annotations.Type;
+
+import javax.persistence.*;
 import java.io.File;
 import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
+@Entity
+@Table(name="addressbook")
 public class ContactData {
+
+    @Id
+    @Column(name="id")
     private int id;
+
+    @Column(name="firstname")
     private  String firstName;
+
+    @Column(name="lastname")
     private  String lastName;
+
+    @Column(name="middlename")
     private  String middleName;
+
+    @Override
+    public String toString() {
+        return "ContactData{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                '}';
+    }
+
+    @Column(name="address")
+    @Type(type="text")
     private  String address;
+
+    @Column(name="home")
+    @Type(type="text")
     private  String homePhone;
+
+    @Column(name="mobile")
+    @Type(type="text")
     private  String mobilePhone;
+
+    @Column(name="work")
+    @Type(type="text")
     private  String workPhone;
-    private  String phoneNumber;
-     private String group;
+
+    @Transient
+    private String phoneNumber;
+    @Transient
+    private String group;
+    @Transient
     private String allPhones;
+    @Transient
     private String allEmails;
+    @Transient
     private  String email1;
+    @Transient
     private  String email2;
+    @Transient
     private  String email3;
+    @Transient
     private String allDetails;
 
-    public File getPhoto() {
-        return photo;
+    @Column(name="photo")
+    @Type(type="text")
+    private String photo;
+
+      public File getPhoto() {
+        return new File(photo);
     }
 
     public ContactData withPhoto(File photo) {
-        this.photo = photo;
+       this.photo = photo.getPath();
         return this;
     }
 
-    private File photo;
+   // private File photo;
 
 
 
@@ -229,17 +277,6 @@ public class ContactData {
     public void setId(int id) {
           this.id = id;
     }
-
-
-    @Override
-    public String toString() {
-        return "ContactData{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                '}';
-    }
-
 
 
 }

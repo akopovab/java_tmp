@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.*;
 import ru.stqa.pft.addressbook.appmanager.ApplicationManager;
+import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.GroupData;
 
 import java.io.BufferedReader;
@@ -117,6 +118,20 @@ public void logTestStart(Method m, Object[]p){
 
 
 
+  @DataProvider
+  public Iterator<Object[]> validContacsFromCsv() throws IOException {
+    List<Object[]> list = new ArrayList<Object[]>(); // все закомментированное для csv формата урок 6, видео 6
+    BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/contacts.csv")));
+    String line = reader.readLine();
+    while (line != null) {
+      String[] split = line.split(";");
+      list.add(new Object[]{new ContactData().withFirstname(split[0]).withLastname(split[1]).withAddress(split[2])});
+      line = reader.readLine();
+    }
+    return list.iterator();
+
+
+  }
 
 
 

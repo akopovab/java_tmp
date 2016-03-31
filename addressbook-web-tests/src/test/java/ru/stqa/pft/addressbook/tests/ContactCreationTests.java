@@ -16,14 +16,15 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class ContactCreationTests extends TestBase {
 
-  @Test
-  public void testContactCreation() {
+  @Test(dataProvider = "validContacsFromCsv")
+  public void testContactCreation(ContactData contact) {
 
     app.goTo().gotoHomePage();
     Contacts before=app.contact().all();
     File photo=new File("src/main/resources/Tulips.jpg");
-    ContactData contact=new ContactData().withFirstname("Ira").withLastname("Goup").
-           withPhoto(photo);
+   // ContactData contact=new ContactData().withFirstname("Ira").withLastname("Goup").
+    //       withPhoto(photo);
+     contact=contact.withPhoto(photo);
     app.contact().createContact(contact);
     assertThat(app.contact().count(), equalTo(before.size() + 1));
     Contacts after = app.contact().all();
@@ -60,7 +61,7 @@ public class ContactCreationTests extends TestBase {
 
   }
 
-  @Test(enabled = false)
+  @Test(enabled = true)
   public void currentDir(){
 
     File currentDir=new File(".");
