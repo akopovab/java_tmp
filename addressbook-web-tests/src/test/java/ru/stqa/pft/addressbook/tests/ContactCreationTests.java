@@ -5,6 +5,8 @@ import org.testng.annotations.Test;
 
 import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.Contacts;
+import ru.stqa.pft.addressbook.model.GroupData;
+import ru.stqa.pft.addressbook.model.Groups;
 
 import java.io.File;
 import java.util.Comparator;
@@ -18,13 +20,20 @@ public class ContactCreationTests extends TestBase {
 
   @Test(dataProvider = "validContacsFromCsv")
   public void testContactCreation(ContactData contact) {
-
+     Groups groups = app.db().groups();
+    if( groups.size()== 0) {
+      app.goTo().groupPage();
+      app.group().create(new GroupData().withName("aaa2").
+              withHeader("headttt").withFooter("foooot"));
+      groups = app.db().groups();
+    }
     app.goTo().gotoHomePage();
     Contacts before=app.contact().all();
     File photo=new File("src/main/resources/Tulips.jpg");
    // ContactData contact=new ContactData().withFirstname("Ira").withLastname("Goup").
     //       withPhoto(photo);
-     contact=contact.withPhoto(photo);
+    contact=contact.withPhoto(photo);
+    contact=contact.inGroup(groups.iterator().next());
     app.contact().createContact(contact);
     assertThat(app.contact().count(), equalTo(before.size() + 1));
     Contacts after = app.contact().all();

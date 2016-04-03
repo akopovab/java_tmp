@@ -1,6 +1,7 @@
 package ru.stqa.pft.addressbook.tests;
 
-import org.junit.Test;
+
+import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.GroupData;
 import ru.stqa.pft.addressbook.model.Groups;
 
@@ -11,7 +12,7 @@ import java.sql.*;
  */
 public class DbConnectionTest {
 
-    @Test
+  @Test
     public void testDbConnection(){
 
         Connection conn = null;

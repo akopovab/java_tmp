@@ -24,6 +24,8 @@ public class ApplicationManager {
   private GroupHelper groupHelper;
   private ContactHelper contactHelper;
   private String browser;
+  private DbHelper dbhelper;
+
 
   public ApplicationManager(String browser) {
 
@@ -40,6 +42,8 @@ public class ApplicationManager {
 
    // if (properties.getProperty("browser").equals("firefox"))
    // wd = new FirefoxDriver();   вариант с конфигурационным файлом -брать броузер из конфига
+
+    dbhelper=new DbHelper();
 
     if(browser.equals(BrowserType.FIREFOX)) {
       wd = new FirefoxDriver();
@@ -60,6 +64,8 @@ public class ApplicationManager {
    // sessionHelper.login("admin", "secret");
     sessionHelper.login(properties.getProperty("web.adminLogin"),
             properties.getProperty("web.adminPassword"));
+
+
   }
 
 
@@ -86,6 +92,7 @@ public class ApplicationManager {
     return contactHelper;
   }
 
+  public DbHelper db(){ return dbhelper; }
 
 
 

@@ -6,6 +6,9 @@ import javax.persistence.*;
 import java.io.File;
 import java.lang.reflect.Array;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 @Entity
@@ -25,12 +28,16 @@ public class ContactData {
     @Column(name="middlename")
     private  String middleName;
 
+    @Transient
+    private String group;
+
     @Override
     public String toString() {
         return "ContactData{" +
                 "id=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
+                ", groups=" + groups +
                 '}';
     }
 
@@ -52,8 +59,15 @@ public class ContactData {
 
     @Transient
     private String phoneNumber;
-    @Transient
-    private String group;
+   // @Transient
+   // private String group;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name="address_in_groups",joinColumns = @JoinColumn(name="id"),
+            inverseJoinColumns = @JoinColumn(name="group_id"))
+    private Set<GroupData> groups=new HashSet<GroupData>();
+
+
     @Transient
     private String allPhones;
     @Transient
@@ -99,6 +113,11 @@ public class ContactData {
 
     public ContactData withId(int id) {
         this.id=id;
+        return this;
+    }
+
+    public ContactData withGroup(String group) {
+        this.group=group;
         return this;
     }
 
@@ -197,10 +216,13 @@ public class ContactData {
         return this;
     }
 
+    public ContactData withGroups(Set<GroupData> groups) {
+        this.groups = groups;
+        return this;
+    }
 
 
-
-  /*  public ContactData(int id, String firstName, String lastName, String address, String phoneNumber,
+/*  public ContactData(int id, String firstName, String lastName, String address, String phoneNumber,
 
                        String email, String group) {
         this.id=id;
@@ -245,11 +267,17 @@ public class ContactData {
     }
 
 
-    public String getGroup() {
+   /* public String getGroup() {
         return group;
-    }
+    }  */
 
-    @Override
+  public Groups getGroups() {
+
+      return new Groups(groups);
+
+  }
+
+/*  @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -269,6 +297,30 @@ public class ContactData {
         result = 31 * result + id;
         return result;
     }
+  */
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ContactData that = (ContactData) o;
+
+        if (id != that.id) return false;
+        if (firstName != null ? !firstName.equals(that.firstName) : that.firstName != null) return false;
+        if (lastName != null ? !lastName.equals(that.lastName) : that.lastName != null) return false;
+        return groups != null ? groups.equals(that.groups) : that.groups == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
+        result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
+        result = 31 * result + (groups != null ? groups.hashCode() : 0);
+        return result;
+    }
 
     public int    getId() {
         return id;
@@ -279,4 +331,8 @@ public class ContactData {
     }
 
 
+  public ContactData inGroup(GroupData group) {
+    groups.add(group);
+    return this;
+  }
 }

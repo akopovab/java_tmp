@@ -3,13 +3,16 @@ package ru.stqa.pft.addressbook.tests;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.thoughtworks.xstream.XStream;
+import org.hamcrest.CoreMatchers;
 import org.openqa.selenium.remote.BrowserType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.*;
 import ru.stqa.pft.addressbook.appmanager.ApplicationManager;
 import ru.stqa.pft.addressbook.model.ContactData;
+import ru.stqa.pft.addressbook.model.Contacts;
 import ru.stqa.pft.addressbook.model.GroupData;
+import ru.stqa.pft.addressbook.model.Groups;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -21,6 +24,9 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 
 /**
@@ -59,6 +65,42 @@ public void logTestStart(Method m, Object[]p){
      logger.info ("Stop test"+ m.getName());
 
  }
+
+  public void verifyGroupListInUI() {
+    if (Boolean.getBoolean("verifyUI")) { // проверка системного параметра,
+      // заданного в Edit Configuration теста GroupModification
+      // если ДА- сравнение выполнять, НЕТ - не выполнять
+      Groups dbGroups = app.db().groups();
+      Groups uiGroups = app.group().all();
+      // Ниже - преобразуем инфо, полученное из БД, чтобы совпадало с инфо из web :
+      // убираем все, кроме id и name, т.е. того, что есть на странице в web
+      assertThat(uiGroups, equalTo(dbGroups.stream().map((g) -> new GroupData().
+              withId(g.getId()).withName(g.getName())).
+              collect(Collectors.toSet())));
+    }
+
+
+  }
+
+
+
+  public void assertion() {
+
+    Contacts dbContacts = app.db().contacts();
+    System.out.println(" db "+ dbContacts);
+    Contacts uiContacts = app.contact().all();
+    System.out.println(" ui "+ uiContacts);
+
+    assertThat(uiContacts,equalTo(dbContacts));
+
+   /* assertThat(uiContacts,equalTo(dbContacts.stream().map((g) -> new ContactData().
+            withId(g.getId()).withFirstname(g.getFirstName()).
+            withLastname(g.getLastName()).withGroups(g.getGroups())).
+            collect(Collectors.toSet())));  */
+
+
+
+  }
 
 
 
@@ -120,7 +162,7 @@ public void logTestStart(Method m, Object[]p){
 
   @DataProvider
   public Iterator<Object[]> validContacsFromCsv() throws IOException {
-    List<Object[]> list = new ArrayList<Object[]>(); // все закомментированное для csv формата урок 6, видео 6
+    List<Object[]> list = new ArrayList<Object[]>(); //  для csv формата урок 6, видео 6
     BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/contacts.csv")));
     String line = reader.readLine();
     while (line != null) {
