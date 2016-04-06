@@ -2,6 +2,7 @@ package ru.stqa.pft.addressbook.tests;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.Select;
+import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.ContactData;
@@ -9,6 +10,7 @@ import ru.stqa.pft.addressbook.model.Contacts;
 import ru.stqa.pft.addressbook.model.GroupData;
 import ru.stqa.pft.addressbook.model.Groups;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,14 +20,19 @@ import static org.hamcrest.MatcherAssert.assertThat;
 /**
  * Created by eee on 02.04.2016.
  */
-public class ContactToGroup  extends TestBase{
+public class ContactToGroup  extends TestBase {
   @BeforeMethod
   public void ensurePreconditions() {
     if (app.db().contacts().size() == 0) { // проверка при загрузке данных из database
       app.goTo().gotoHomePage();
+      app.contact().createContact(new ContactData().withFirstname("Masha").withLastname("Durova"));
+    }
+
+    if (app.db().groups().size() == 0) { // проверка при загрузке данных из database
+      app.goTo().groupPage();
       // if (app.group().all().size() == 0) - проверка при загрузке данных из web
       //if( app.group().list().size()==0 )                         //     (!app.group().isThereAGroup()) {
-      app.contact().createContact(new ContactData().withFirstname("Masha").withLastname("Durova"));
+      app.group().create(new GroupData().withName("testik"));
     }
   }
 
@@ -36,48 +43,40 @@ public class ContactToGroup  extends TestBase{
     Groups groups = app.group().all();
     app.goTo().gotoHomePage();
     Contacts before = app.db().contacts();
-    ContactData modifiedContact = before.iterator().next();
+    //ContactData modifiedContact = before.iterator().next();
+    // GroupData group =groups.iterator().next();
+    ContactData modifiedContact = null;
+    GroupData group = null;
+    boolean isPossibleToAdd = false;
 
+    Iterator<ContactData> itrContacts = before.iterator();
+    while (itrContacts.hasNext()) {
+      Iterator<GroupData> itrGroups = groups.iterator();
+      modifiedContact = itrContacts.next();
 
-    app.contact().toGroup(modifiedContact,groups.iterator().next());
-
-    app.goTo().gotoHomePage();
-    Contacts after =app.contact().all();
-    System.out.println(" ui "+ after);
-
-    for ( ContactData contact : after ) {
-
-      String[] namegroup = verifyGroup(contact);
-      if(namegroup !=null ) {
-         for (int i = 0; i < namegroup.length; i++) {
-          GroupData group = new GroupData().withName(namegroup[i].trim());
-          contact = contact.inGroup(group);
+      while (itrGroups.hasNext()) {
+        group = itrGroups.next();
+        if (modifiedContact.getGroups().contains(group)) continue;
+        else {
+          isPossibleToAdd = true;
+          break;
         }
       }
-     // System.out.println(contact);
-     // System.out.println(contact.getGroups());
-
-      }
-
-      assertion();
-
+      if (isPossibleToAdd) break;
     }
 
+    if (!isPossibleToAdd) {
+      //System.out.println(" Все контакты добавлены в группы");
+      Assert.assertTrue(itrContacts.hasNext(), " Хотели добавить контакт, но.. уже все контакты добавлены" +
+              "во все группы");
+    }
 
-
-  private String[] verifyGroup(ContactData contact) {
+    app.contact().toGroup(modifiedContact, group);
     app.goTo().gotoHomePage();
-    String details=app.getContactHelper().infoFromDetailForm( contact );
-    String det[]=details.split("\n");
-    for(int i=0;i<det.length;i++) {
-      if (det[i].contains("Member of:")) {
-        int ind = det[i].lastIndexOf(":");
-        det[i] = det[i].substring(ind + 2);
-        String[] groups = det[i].split(",");
-        return groups;
-      }
-    }
-    return null;
+    Contacts after = app.contact().all();
+    app.contact().formContactsPlusGroupsfromUI(after);
+     assertion();
+
   }
 
 

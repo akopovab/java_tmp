@@ -29,4 +29,8 @@ public class NavigationHelper extends HelperBase {
     click(By.linkText("home"));
   }
 
+  public void ContactsIntoGroupPage(){
+    wd.findElement(By.xpath(".//a[contains(text(),'group page')]")).click();
+  }
+
 }

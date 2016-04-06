@@ -87,16 +87,15 @@ public void logTestStart(Method m, Object[]p){
   public void assertion() {
 
     Contacts dbContacts = app.db().contacts();
-    System.out.println(" db "+ dbContacts);
     Contacts uiContacts = app.contact().all();
-    System.out.println(" ui "+ uiContacts);
 
-    assertThat(uiContacts,equalTo(dbContacts));
 
-   /* assertThat(uiContacts,equalTo(dbContacts.stream().map((g) -> new ContactData().
+ //   assertThat(uiContacts,equalTo(dbContacts));
+
+    assertThat(uiContacts,equalTo(dbContacts.stream().map((g) -> new ContactData().
             withId(g.getId()).withFirstname(g.getFirstName()).
             withLastname(g.getLastName()).withGroups(g.getGroups())).
-            collect(Collectors.toSet())));  */
+            collect(Collectors.toSet())));
 
 
 
